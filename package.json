@@ -1,11 +1,12 @@
 {
-  "name": "with-tailwindcss",
-  "version": "0.1.0",
+  "name": "google-docs-clone",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@material-tailwind/react": "0.3.4",
@@ -16,14 +17,22 @@
     "firebase": "^8.7.1",
     "next": "latest",
     "next-auth": "^3.27.3",
+    "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-draft-wysiwyg": "^1.14.7",
-    "react-firebase-hooks": "^3.0.4"
+    "react-firebase-hooks": "^3.0.4",
+    "tailwindcss": "^2.2.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.6",
-    "postcss": "^8.3.5",
-    "tailwindcss": "^2.2.4"
+    "eslint": "^7.31.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-next": "^11.0.1",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "postcss": "^8.3.5"
   }
 }
