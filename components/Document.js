@@ -1,18 +1,18 @@
+import ContextMenu from "./ContextMenu";
+import { deleteDocument } from "../functions/deleteDocument";
+
+import PropTypes from "prop-types";
 import Icon from "@material-tailwind/react/Icon";
 import Button from "@material-tailwind/react/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import ContextMenu from "./ContextMenu";
-
-import { deleteDocument } from "../functions/deleteDocument";
 
 import { useState } from "react";
 import { useRouter } from "next/dist/client/router";
 
-function Document({ id, name, timestamp, states, session }) {
+function Document({ id, name, timestamp, session }) {
   const router = useRouter();
   const [menu, setMenu] = useState(false);
-
   const [showModal, setShowModal] = useState(false);
   const [input, setInput] = useState("");
 
@@ -26,14 +26,15 @@ function Document({ id, name, timestamp, states, session }) {
             e.target.nodeName !== "BUTTON" &&
             e.target.nodeName !== "LI" &&
             e.target.nodeName !== "DIV"
-          )
+          ) {
             router.push(`/doc/${id}`);
+          }
         }}
         className="flex w-full justify-between items-center py-4 rounded-lg hover:bg-gray-200 text-gray-700 text-sm cursor-pointer hover:font-semibold"
       >
         <td className="flex items-center">
           <Icon name="article" size="3xl" color="blue" />
-          <p className="flex-grow pl-5 w-10 pr-10 truncate">{name}</p>
+          <p className="flex-grow pl-5 w-auto pr-10">{name}</p>
         </td>
         <td>
           <p className="pr-5 text-sm">
@@ -42,11 +43,11 @@ function Document({ id, name, timestamp, states, session }) {
         </td>
         <td>
           <Button
-            id={id + "-b"}
+            id={`${id}-b`}
             color="gray"
             buttonType="outline"
-            rounded={true}
-            iconOnly={true}
+            rounded
+            iconOnly
             ripple="dark"
             className="border-0 z-10 hover:bg-gray-200"
             onClick={() => {
@@ -58,13 +59,13 @@ function Document({ id, name, timestamp, states, session }) {
           {menu && (
             <Menu
               id={id}
-              anchorEl={document.getElementById(id + "-b")}
-              open={true}
+              anchorEl={document.getElementById(`${id}-b`)}
+              open
               keepMounted
               onClose={() => setMenu(false)}
             >
               <MenuItem
-                onClick={(e) => {
+                onClick={() => {
                   setMenu(false);
                   setShowModal(true);
                 }}
@@ -118,5 +119,11 @@ function Document({ id, name, timestamp, states, session }) {
     </>
   );
 }
+Document.propTypes = {
+  id: PropTypes.string.isRequired,
+  timestamp: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
+  session: PropTypes.object.isRequired,
+};
 
 export default Document;
