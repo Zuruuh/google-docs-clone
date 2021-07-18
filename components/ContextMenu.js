@@ -1,3 +1,7 @@
+import { createDocument } from "../functions/createDocument";
+import { renameDocument } from "../functions/renameDocument";
+
+import PropTypes from "prop-types";
 import Modal from "@material-tailwind/react/Modal";
 import ModalBody from "@material-tailwind/react/ModalBody";
 import ModalFooter from "@material-tailwind/react/ModalFooter";
@@ -6,20 +10,17 @@ import { useRouter } from "next/dist/client/router";
 
 import { signOut, useSession } from "next-auth/client";
 
-import { createDocument } from "../functions/createDocument";
-import { renameDocument } from "../functions/renameDocument";
-
-function ContextMenu(props) {
+function ContextMenu({ states, type, doc, template }) {
   const [session] = useSession();
-  const showModal = props.states[0];
-  const setShowModal = props.states[1];
-  const input = props.states[2];
-  const setInput = props.states[3];
   const router = useRouter();
+  const showModal = states[0];
+  const setShowModal = states[1];
+  const input = states[2];
+  const setInput = states[3];
 
-  var body = <div>Insert body..</div>;
-  var footer = <div>Insert Footer</div>;
-  if (props.type === "newDoc") {
+  let body = <div>Insert body..</div>;
+  let footer = <div>Insert Footer</div>;
+  if (type === "newDoc") {
     body = (
       <ModalBody>
         <input
@@ -28,16 +29,11 @@ function ContextMenu(props) {
           type="text"
           className="outline-none w-full"
           placeholder="Enter name of document..."
-          onKeyDown={(e) =>
-            e.key === "Enter" &&
-            createDocument(
-              props.template,
-              input,
-              session,
-              setInput,
-              setShowModal
-            )
-          }
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              createDocument(template, input, session, setInput, setShowModal);
+            }
+          }}
         />
       </ModalBody>
     );
@@ -46,7 +42,7 @@ function ContextMenu(props) {
         <Button
           color="blue"
           buttonType="link"
-          onClick={(e) => {
+          onClick={() => {
             setShowModal(false);
             setInput("");
           }}
@@ -56,22 +52,16 @@ function ContextMenu(props) {
         </Button>
         <Button
           color="blue"
-          onClick={() =>
-            createDocument(
-              props.template,
-              input,
-              session,
-              setInput,
-              setShowModal
-            )
-          }
+          onClick={() => {
+            createDocument(template, input, session, setInput, setShowModal);
+          }}
           ripple="light"
         >
           Create
         </Button>
       </ModalFooter>
     );
-  } else if (props.type === "logOut") {
+  } else if (type === "logOut") {
     body = (
       <ModalBody>
         <p>Do you really want to log Out ?</p>
@@ -82,7 +72,7 @@ function ContextMenu(props) {
         <Button
           color="blue"
           buttonType="link"
-          onClick={(e) => setShowModal(false)}
+          onClick={() => setShowModal(false)}
           ripple="dark"
         >
           Cancel
@@ -91,7 +81,7 @@ function ContextMenu(props) {
           color="blue"
           onClick={() => {
             signOut();
-            router.push(`/`);
+            router.push("/");
           }}
           ripple="light"
         >
@@ -99,7 +89,7 @@ function ContextMenu(props) {
         </Button>
       </ModalFooter>
     );
-  } else if (props.type === "rename") {
+  } else if (type === "rename") {
     body = (
       <ModalBody>
         <input
@@ -110,7 +100,7 @@ function ContextMenu(props) {
           placeholder="Enter a new name..."
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              renameDocument(session, props.doc, input);
+              renameDocument(session, doc, input);
               setInput("");
               setShowModal(false);
             }
@@ -123,7 +113,7 @@ function ContextMenu(props) {
         <Button
           color="blue"
           buttonType="link"
-          onClick={(e) => {
+          onClick={() => {
             setShowModal(false);
             setInput("");
           }}
@@ -134,7 +124,7 @@ function ContextMenu(props) {
         <Button
           color="blue"
           onClick={() => {
-            renameDocument(session, props.doc, input);
+            renameDocument(session, doc, input);
             setInput("");
             setShowModal(false);
           }}
@@ -157,5 +147,16 @@ function ContextMenu(props) {
     </Modal>
   );
 }
+ContextMenu.propTypes = {
+  states: PropTypes.array.isRequired,
+  type: PropTypes.string.isRequired,
+  doc: PropTypes.string,
+  template: PropTypes.string,
+};
+
+ContextMenu.defaultProps = {
+  doc: "",
+  template: "blank",
+};
 
 export default ContextMenu;
