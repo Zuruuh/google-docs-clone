@@ -1,10 +1,9 @@
+import DocumentTemplate from "./DocumentTemplate";
+import Blank from "../resources/blank.png";
 import Button from "@material-tailwind/react/Button";
 import Icon from "@material-tailwind/react/Icon";
 
-import Blank from "../resources/blank.png";
-import DocumentTemplate from "./DocumentTemplate";
-
-function NewDocument(props) {
+function NewDocument() {
   return (
     <section className="bg-[#F8F9FA] pb-10 px-10">
       <div className="max-w-3xl mx-auto ">
@@ -13,7 +12,7 @@ function NewDocument(props) {
           <Button
             color="gray"
             buttonType="outline"
-            iconOnly={true}
+            iconOnly
             ripple="dark"
             className="border-0 rounded-lg"
           >
