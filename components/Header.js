@@ -1,8 +1,8 @@
+import ContextMenu from "./ContextMenu";
+
+import Sidebar from "./Sidebar";
 import Button from "@material-tailwind/react/Button";
 import Icon from "@material-tailwind/react/Icon";
-
-import ContextMenu from "../components/ContextMenu";
-
 import { useState } from "react";
 import { useSession } from "next-auth/client";
 
@@ -10,21 +10,32 @@ function Header() {
   const [session] = useSession();
 
   const [showModal, setShowModal] = useState(false);
+  const [drawer, setDrawer] = useState(false);
 
   return (
     <>
+      <Sidebar
+        states={[drawer, setDrawer]}
+        iconName="info"
+        link="/about"
+        text="About"
+      />
       <header className="sticky top-0 z-25 flex items-center px-4 py-2 shadow-md bg-white justify-between">
         <div className="flex items-center">
           <Button
             color="grey"
             buttonType="outline"
-            rounded={true}
-            iconOnly={true}
+            rounded
+            iconOnly
             ripple="dark"
-            className="h-20 w-20 border-0"
+            className="h-20 w-20 border-0 flex justify-center items-center"
+            onClick={() => {
+              setDrawer(true);
+            }}
           >
-            <Icon name="menu" size="3xl"></Icon>
+            <Icon name="menu" size="3xl" />
           </Button>
+
           <Icon name="description" size="5xl" color="blue" />
           <h1 className="ml-2 text-gray-700 text-2xl">Docs</h1>
         </div>
@@ -38,21 +49,25 @@ function Header() {
         </div>
         <Button
           color="gray"
-          rounded={true}
-          iconOnly={true}
+          rounded
+          iconOnly
           buttonType="outline"
           ripple="dark"
           className="hidden md:inline-flex ml-5 md:ml-20 h-20 w-20 border-0"
         >
           <Icon name="apps" size="3xl" color="gray" />
         </Button>
-        <img
+        <Button
           onClick={() => setShowModal(true)}
-          loading="lazy"
-          className="cursor-pointer h-12 w-12 rounded-full ml-2"
-          src={session?.user?.image}
-          alt="User Profile Picture"
-        />
+          className="p0 shadow-none bg-transparent hover:bg-transparent hover:shadow-none focus:bg-transparent active:bg-transparent ml-2 p-0 origin-center transition ease-in-out duration-75 transform hover:scale-105"
+        >
+          <img
+            loading="lazy"
+            className="cursor-pointer h-12 w-12 rounded-full"
+            src={session?.user?.image}
+            alt="User Profile"
+          />
+        </Button>
       </header>
       <ContextMenu type="logOut" states={[showModal, setShowModal]} />
     </>
