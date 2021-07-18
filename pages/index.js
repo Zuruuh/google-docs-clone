@@ -1,11 +1,10 @@
+import Login from "../components/Login";
+import UserDocuments from "../components/UserDocuments";
+import NewDocument from "../components/NewDocument";
+import Header from "../components/Header";
 import Head from "next/head";
 import { getSession, useSession } from "next-auth/client";
-
 // * Components Imports
-import Header from "../components/Header";
-import NewDocument from "../components/NewDocument";
-import UserDocuments from "../components/UserDocuments";
-import Login from "../components/Login";
 
 export default function Home() {
   const [session] = useSession();
@@ -27,7 +26,7 @@ export default function Home() {
 
 export async function getServerSideProps(context) {
   const session = await getSession();
-
+  console.log(context); /*  eslint no-console: "off" */
   return {
     props: {
       session,
