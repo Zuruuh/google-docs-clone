@@ -1,15 +1,15 @@
-import Icon from "@material-tailwind/react/Icon";
-
 import Document from "./Document";
+import { db } from "../firebase";
+import Icon from "@material-tailwind/react/Icon";
+import PropTypes from "prop-types";
 
 import { useCollectionOnce } from "react-firebase-hooks/firestore";
-import { db } from "../firebase";
 
-function UserDocuments(props) {
+function UserDocuments({ session }) {
   const [snapshot] = useCollectionOnce(
     db
       .collection("userDocs")
-      .doc(props.session.user.email)
+      .doc(session.user.email)
       .collection("docs")
       .orderBy("timestamp", "desc")
   );
@@ -40,7 +40,7 @@ function UserDocuments(props) {
                     id={doc.id}
                     name={doc.data().fileName}
                     timestamp={doc.data().timestamp}
-                    session={props.session}
+                    session={session}
                   />
                 ))}
               </tbody>
@@ -51,5 +51,9 @@ function UserDocuments(props) {
     </>
   );
 }
+
+UserDocuments.propTypes = {
+  session: PropTypes.object.isRequired,
+};
 
 export default UserDocuments;
