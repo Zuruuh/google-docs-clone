@@ -21,7 +21,7 @@ export async function createDocument(
   setShowModal
 ) {
   if (!name) return;
-  var editorState = {};
+  let editorState = {};
   const ref = await db
     .collection("userDocs")
     .doc(session.user.email)
@@ -35,9 +35,9 @@ export async function createDocument(
     const templateContent =
       template._delegate._document.data.value.mapValue.fields;
     if (docTemplate === templateContent.name.stringValue) {
-      const fields =
+      const { fields } =
         templateContent.content.mapValue.fields.blocks.arrayValue.values[0]
-          .mapValue.fields;
+          .mapValue;
       editorState = {
         blocks: [
           {
@@ -58,5 +58,4 @@ export async function createDocument(
   setInput("");
   setShowModal(false);
   Router.push(`/doc/${ref.id}`);
-  //});
 }
