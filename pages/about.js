@@ -11,9 +11,9 @@ import VSCodeLogo from "../resources/vsc.svg";
 
 function About() {
   return (
-    <main className="flex justify-center flex-col w-full">
-      <h1 className="text-center mt-10 text-5xl">About</h1>
-      <p className="text-center mt-5">
+    <main className="flex justify-center flex-col w-full pb-8 bg-gray-900">
+      <h1 className="text-center mt-10 text-5xl text-gray-100">About</h1>
+      <p className="text-center mt-5 text-gray-100">
         Here is a list of all the libraries and Frameworks I used for this
         project 👇
       </p>
@@ -51,7 +51,7 @@ function About() {
             image={TailwindLogo}
             desc="Tailwind CSS creates small utilities with a defined set of options enabling easy integration of existing classes directly into the HTML code."
             link="https://tailwindcss.com/"
-          />{" "}
+          />
           <Technos
             name="Material UI"
             image={MaterialUiLogo}
@@ -72,6 +72,22 @@ function About() {
           />
         </section>
       </div>
+      <p className="text-center text-gray-100">
+        <a className="text-blue-300 underline" href="/">
+          Click here
+        </a>
+        &nbsp;to go back to the main application.
+      </p>
+      <p className="text-center text-gray-100">
+        Or you can&nbsp;
+        <a
+          className="text-blue-300 underline"
+          href="https://github.com/Zuruuh/google-docs-clone"
+        >
+          click there
+        </a>
+        &nbsp;to access to the Github repo of this project.
+      </p>
     </main>
   );
 }
